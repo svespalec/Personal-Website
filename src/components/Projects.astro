@@ -14,7 +14,7 @@ const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
     <div class="relative h-[320px]">
       {Array.from({ length: totalPages }).map((_, pageIndex) => (
         <div 
-          class="projects-page grid grid-cols-1 md:grid-cols-2 gap-6 absolute inset-0 transition-all duration-500 opacity-0 translate-x-full"
+          class="projects-page grid grid-cols-1 md:grid-cols-2 gap-6 absolute inset-0 transition-all duration-500 opacity-0 translate-x-full cursor-default"
           data-page={pageIndex}
         >
           {projects.slice(pageIndex * PROJECTS_PER_PAGE, (pageIndex + 1) * PROJECTS_PER_PAGE).map(project => (
