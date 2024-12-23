@@ -1,0 +1,31 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { SkillSection } from '../types';
+import { skills } from '../data/skills';
+---
+
+<section class="py-12 bg-gradient-to-b from-black to-purple-900/20">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold mb-8 text-white">Skills</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {skills.map(skill => (
+        <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden hover:border-purple-500/20 transition-all duration-300 p-6">
+          <div class="flex gap-3 mb-4">
+            <Icon name={skill.icon} class="w-6 h-6 text-purple-400" />
+            <div>
+              <h3 class="text-lg font-semibold text-white">{skill.title}</h3>
+              <p class="text-sm text-gray-400">{skill.description}</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            {skill.items.map(item => (
+              <span class="px-3 py-1 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20 text-sm">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
