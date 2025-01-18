@@ -3,7 +3,7 @@ import { Icon } from 'astro-icon/components';
 import type { Project } from '../types';
 import { projects } from '../data/projects';
 
-const PROJECTS_PER_PAGE = 1;
+const PROJECTS_PER_PAGE = 4;
 const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
 ---
 
@@ -18,41 +18,47 @@ const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
         <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Featured Projects</span>
       </h2>
       
-      <div class="relative" style="min-height: 200px;">
-        <div class="projects-container absolute w-full">
-          {projects.map((project, index) => (
-            <div 
-              class="project-item opacity-0 absolute w-full transition-all duration-500 ease-out"
-              data-index={index}
-            >
-              <div class="group bg-[#1A1A1C]/50 border border-white/[0.08] rounded-lg p-5
-                          hover:border-purple-500/30 hover:bg-[#1A1A1C]/60
-                          transition-all duration-300">
-                <div class="flex justify-between items-start gap-4 mb-3">
-                  <h3 class="text-lg font-medium text-white/90 group-hover:text-white transition-colors duration-300">{project.title}</h3>
-                  <div class="flex gap-2">
-                    <a href={project.github} target="_blank" rel="noopener noreferrer" class="text-white/60 hover:text-purple-400 transition-colors duration-300">
-                      <Icon name="mdi:github" class="w-5 h-5" />
-                    </a>
-                    <a href={project.demo} target="_blank" rel="noopener noreferrer" class="text-white/60 hover:text-purple-400 transition-colors duration-300">
-                      <Icon name="mdi:external-link" class="w-5 h-5" />
-                    </a>
+      <div class="relative">
+        <div class="projects-container">
+          <div class="grid grid-cols-1 gap-6">
+            {projects.map((project, index) => (
+              <div 
+                class="project-item opacity-0 transition-all duration-500 ease-out"
+                data-index={index}
+              >
+                <div class="group bg-[#1A1A1C]/50 border border-white/[0.08] rounded-lg p-6
+                            hover:border-purple-500/30 hover:bg-[#1A1A1C]/60
+                            transition-all duration-300 h-full">
+                  <div class="flex justify-between items-start gap-4 mb-3">
+                    <h3 class="text-lg font-medium text-white/90 group-hover:text-white transition-colors duration-300">{project.title}</h3>
+                    <div class="flex gap-2 shrink-0">
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" class="text-white/60 hover:text-purple-400 transition-colors duration-300">
+                        <Icon name="mdi:github" class="w-5 h-5" />
+                      </a>
+                      <a href={project.demo} target="_blank" rel="noopener noreferrer" class="text-white/60 hover:text-purple-400 transition-colors duration-300">
+                        <Icon name="mdi:external-link" class="w-5 h-5" />
+                      </a>
+                    </div>
+                  </div>
+                  <p class="text-sm text-white/70 mb-4 group-hover:text-white/80 transition-colors duration-300">{project.description}</p>
+                  <div class="flex flex-wrap gap-1.5">
+                    {project.tags.map(tag => (
+                      <div class="group/item">
+                        <div class="relative">
+                          <span class="px-3 py-1.5 text-sm rounded-lg bg-purple-500/10 text-purple-300
+                                     border border-purple-500/20 hover:border-purple-500/40 
+                                     transition-all duration-300 cursor-default inline-block
+                                     hover:bg-purple-500/20">
+                            {tag}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-                <p class="text-sm text-white/70 mb-4 group-hover:text-white/80 transition-colors duration-300">{project.description}</p>
-                <div class="flex flex-wrap gap-1.5">
-                  {project.tags.map(tag => (
-                    <span class="px-3 py-1 text-sm rounded-lg bg-[#1A1A1C]/50 text-white/80
-                               border border-white/[0.08] hover:border-purple-500/30 
-                               transition-all duration-300 cursor-default
-                               hover:text-purple-300">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
@@ -74,19 +80,16 @@ const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
 
 <style>
   .project-item {
-    transform: translateX(100%);
+    opacity: 0;
+    transform: translateY(10px);
     pointer-events: none;
   }
 
   .project-item.active {
-    transform: translateX(0);
     opacity: 1;
+    transform: translateY(0);
     pointer-events: all;
-  }
-
-  .project-item.prev {
-    transform: translateX(-100%);
-    opacity: 0;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
   }
 
   .page-dot.active {
@@ -105,7 +108,7 @@ const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
   function initializeProjectPages() {
     const items = document.querySelectorAll('.project-item');
     const dots = document.querySelectorAll('.page-dot');
-    const itemsPerPage = 1;
+    const itemsPerPage = 4;
     let currentPage = 0;
 
     function resetAutoRotate() {
@@ -123,14 +126,11 @@ const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
       const endIdx = startIdx + itemsPerPage;
 
       items.forEach((item: Element, index: number) => {
-        item.classList.remove('active', 'prev');
-        
+        item.classList.remove('active');
         if (index >= startIdx && index < endIdx) {
           setTimeout(() => {
             item.classList.add('active');
-          }, 50);
-        } else if (index >= (currentPage * itemsPerPage) && index < (currentPage * itemsPerPage + itemsPerPage)) {
-          item.classList.add('prev');
+          }, 50 * (index - startIdx));
         }
       });
 
