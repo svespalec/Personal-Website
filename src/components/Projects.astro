@@ -3,11 +3,11 @@ import { Icon } from 'astro-icon/components';
 import type { Project } from '../types';
 import { projects } from '../data/projects';
 
-const PROJECTS_PER_PAGE = 2;
+const PROJECTS_PER_PAGE = 1;
 const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
 ---
 
-<section class="py-16 relative">
+<section id="projects-section" class="hidden py-16 relative">
   <div class="absolute inset-0 grid grid-cols-[repeat(auto-fit,minmax(5rem,1fr))] gap-20 opacity-[0.15] blur-[1px] -z-10">
     <div class="bg-gradient-to-b from-purple-500/50 to-transparent h-60 rounded-lg"></div>
   </div>
@@ -18,7 +18,7 @@ const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
         <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Featured Projects</span>
       </h2>
       
-      <div class="relative" style="min-height: 400px;">
+      <div class="relative" style="min-height: 200px;">
         <div class="projects-container absolute w-full">
           {projects.map((project, index) => (
             <div 
@@ -57,10 +57,10 @@ const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
       </div>
 
       {totalPages > 1 && (
-        <div class="flex justify-center gap-3 mt-8">
+        <div class="flex justify-center gap-4 mt-12">
           {Array.from({ length: totalPages }).map((_, index) => (
             <button
-              class="w-2 h-2 rounded-full bg-white/[0.15] transition-all duration-300 
+              class="w-3 h-3 rounded-full bg-white/[0.15] transition-all duration-300 
                      hover:bg-purple-500/40 focus:outline-none page-dot"
               data-page={index}
               aria-label={`Go to page ${index + 1}`}
@@ -90,7 +90,12 @@ const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
   }
 
   .page-dot.active {
-    @apply bg-purple-500/40 w-6;
+    @apply bg-purple-500;
+    transform: scale(1.2);
+  }
+
+  .hidden {
+    display: none;
   }
 </style>
 
@@ -100,7 +105,7 @@ const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
   function initializeProjectPages() {
     const items = document.querySelectorAll('.project-item');
     const dots = document.querySelectorAll('.page-dot');
-    const itemsPerPage = 2;
+    const itemsPerPage = 1;
     let currentPage = 0;
 
     function resetAutoRotate() {
@@ -149,7 +154,36 @@ const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
     showPage(0);
   }
 
-  // Initialize when DOM is ready and handle page transitions
-  document.addEventListener('astro:page-load', initializeProjectPages);
-  document.addEventListener('DOMContentLoaded', initializeProjectPages);
+  // Add tab switching logic
+  function initializeTabSwitching() {
+    const skillsTab = document.getElementById('skills-tab');
+    const projectsTab = document.getElementById('projects-tab');
+    const skillsSection = document.getElementById('skills-section');
+    const projectsSection = document.getElementById('projects-section');
+
+    if (skillsTab && projectsTab && skillsSection && projectsSection) {
+      skillsTab.addEventListener('click', () => {
+        skillsTab.classList.add('active-tab');
+        projectsTab.classList.remove('active-tab');
+        skillsSection.classList.remove('hidden');
+        projectsSection.classList.add('hidden');
+      });
+
+      projectsTab.addEventListener('click', () => {
+        projectsTab.classList.add('active-tab');
+        skillsTab.classList.remove('active-tab');
+        projectsSection.classList.remove('hidden');
+        skillsSection.classList.add('hidden');
+      });
+    }
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    initializeProjectPages();
+    initializeTabSwitching();
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+    initializeProjectPages();
+    initializeTabSwitching();
+  });
 </script>
