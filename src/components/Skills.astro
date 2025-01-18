@@ -2,6 +2,7 @@
 import { Icon } from 'astro-icon/components';
 import type { SkillSection } from '../types';
 import { skills } from '../data/skills';
+import { projects } from '../data/projects';
 ---
 
 <div class="container mx-auto px-4 mt-24 mb-16">
@@ -68,6 +69,60 @@ import { skills } from '../data/skills';
                     </div>
                   </div>
                 </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects-section" class="py-16 relative hidden">
+  <div class="absolute inset-0 grid grid-cols-[repeat(auto-fit,minmax(5rem,1fr))] gap-20 opacity-[0.15] blur-[1px] -z-10">
+    <div class="bg-gradient-to-b from-purple-500/50 to-transparent h-60 rounded-lg"></div>
+  </div>
+  
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl">
+      <h2 class="text-4xl font-bold mb-2 text-white/90 tracking-tight">
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600">Featured Projects</span>
+      </h2>
+      <p class="text-white/60 mb-12 text-lg">Highlighted work showcasing technical expertise and problem-solving abilities</p>
+    
+      <div class="grid grid-cols-1 gap-8">
+        {projects.map((project, index) => (
+          <div class="group bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.08] rounded-xl p-7
+                     hover:border-purple-500/30 backdrop-blur-sm
+                     transition-all duration-500 ease-out transform hover:scale-[1.02]"
+               style={`animation-delay: ${index * 100}ms`}>
+            <div class="flex items-start gap-4 mb-4">
+              <div class="bg-purple-500/10 p-3 rounded-xl border border-purple-500/20 group-hover:border-purple-500/40 
+                          transition-all duration-500 group-hover:shadow-[0_0_1.5rem_0_rgba(168,85,247,0.1)]">
+                <Icon name="mdi:folder-outline" class="w-6 h-6 text-purple-400" />
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <h3 class="text-xl font-medium text-white/90 group-hover:text-white transition-colors duration-300">{project.title}</h3>
+                  <div class="flex gap-3">
+                    <a href={project.github} class="text-white/60 hover:text-white/90 transition-colors duration-300">
+                      <Icon name="mdi:github" class="w-5 h-5" />
+                    </a>
+                    <a href={project.demo} class="text-white/60 hover:text-white/90 transition-colors duration-300">
+                      <Icon name="mdi:open-in-new" class="w-5 h-5" />
+                    </a>
+                  </div>
+                </div>
+                <p class="text-[0.95rem] text-white/60 group-hover:text-white/70 transition-colors duration-300 mt-1">{project.description}</p>
+              </div>
+            </div>
+            
+            <div class="flex flex-wrap gap-2 pl-[4rem]">
+              {project.tags.map(tag => (
+                <span class="px-4 py-2 text-[0.9rem] rounded-lg bg-purple-500/[0.08] text-purple-300/90
+                           border border-purple-500/20 transition-all duration-300 cursor-default inline-block">
+                  {tag}
+                </span>
               ))}
             </div>
           </div>
