@@ -3,6 +3,9 @@ import { Icon } from 'astro-icon/components';
 import type { SkillSection } from '../types';
 import { skills } from '../data/skills';
 import { projects } from '../data/projects';
+
+const PROJECTS_PER_PAGE = 4;
+const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
 ---
 
 <div class="container mx-auto px-4 mt-24 mb-16">
@@ -93,41 +96,63 @@ import { projects } from '../data/projects';
       <div class="grid grid-cols-1 gap-8">
         {projects.map((project, index) => (
           <div class="group bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.08] rounded-xl p-7
-                     hover:border-purple-500/30 backdrop-blur-sm
+                     hover:border-purple-500/30 backdrop-blur-sm project-card hidden h-[180px]
                      transition-all duration-500 ease-out transform hover:scale-[1.02]"
-               style={`animation-delay: ${index * 100}ms`}>
-            <div class="flex items-start gap-4 mb-4">
+               data-page={Math.floor(index / PROJECTS_PER_PAGE) + 1}
+               style={`animation-delay: ${(index % PROJECTS_PER_PAGE) * 100}ms`}>
+            <div class="flex items-start gap-4 h-full">
               <div class="bg-purple-500/10 p-3 rounded-xl border border-purple-500/20 group-hover:border-purple-500/40 
                           transition-all duration-500 group-hover:shadow-[0_0_1.5rem_0_rgba(168,85,247,0.1)]">
-                <Icon name="mdi:folder-outline" class="w-6 h-6 text-purple-400" />
+                <Icon name="mdi:folder-outline" class="w-7 h-7 text-purple-400" />
               </div>
-              <div class="flex-1">
+              <div class="flex-1 flex flex-col">
                 <div class="flex items-center justify-between">
                   <h3 class="text-xl font-medium text-white/90 group-hover:text-white transition-colors duration-300">{project.title}</h3>
-                  <div class="flex gap-3">
-                    <a href={project.github} class="text-white/60 hover:text-white/90 transition-colors duration-300">
-                      <Icon name="mdi:github" class="w-5 h-5" />
+                  <div class="flex gap-4">
+                    <a href={project.github} class="text-white/60 hover:text-white/90 transition-colors duration-300 hover:scale-110 transform">
+                      <Icon name="mdi:github" class="w-6 h-6" />
                     </a>
-                    <a href={project.demo} class="text-white/60 hover:text-white/90 transition-colors duration-300">
-                      <Icon name="mdi:open-in-new" class="w-5 h-5" />
+                    <a href={project.demo} class="text-white/60 hover:text-white/90 transition-colors duration-300 hover:scale-110 transform">
+                      <Icon name="mdi:open-in-new" class="w-6 h-6" />
                     </a>
                   </div>
                 </div>
                 <p class="text-[0.95rem] text-white/60 group-hover:text-white/70 transition-colors duration-300 mt-1">{project.description}</p>
+                <div class="flex flex-wrap gap-2 mt-auto pt-4">
+                  {project.tags.map(tag => (
+                    <span class="px-4 py-2 text-[0.9rem] rounded-lg bg-purple-500/[0.08] text-purple-300/90
+                               border border-purple-500/20 transition-all duration-300 cursor-default inline-block">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-            
-            <div class="flex flex-wrap gap-2 pl-[4rem]">
-              {project.tags.map(tag => (
-                <span class="px-4 py-2 text-[0.9rem] rounded-lg bg-purple-500/[0.08] text-purple-300/90
-                           border border-purple-500/20 transition-all duration-300 cursor-default inline-block">
-                  {tag}
-                </span>
-              ))}
             </div>
           </div>
         ))}
       </div>
+
+      {totalPages > 1 && (
+        <div class="flex justify-center items-center gap-2 mt-12">
+          <button id="prev-page" class="pagination-btn" disabled>
+            <Icon name="mdi:chevron-left" class="w-5 h-5" />
+          </button>
+          
+          <div class="flex gap-2 items-center">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button class={`w-8 h-8 rounded-lg border text-sm font-medium transition-all duration-300 pagination-page-btn
+                           ${i === 0 ? 'border-purple-500/50 bg-purple-500/10 text-white' : 'border-white/10 text-white/60 hover:border-purple-500/30 hover:bg-purple-500/5'}`}
+                      data-page={i + 1}>
+                {i + 1}
+              </button>
+            ))}
+          </div>
+
+          <button id="next-page" class="pagination-btn" disabled={totalPages === 1}>
+            <Icon name="mdi:chevron-right" class="w-5 h-5" />
+          </button>
+        </div>
+      )}
     </div>
   </div>
 </section>
@@ -197,6 +222,21 @@ import { projects } from '../data/projects';
     -webkit-mask-composite: xor;
     mask-composite: exclude;
   }
+
+  .pagination-btn {
+    @apply w-8 h-8 rounded-lg border border-white/10 text-white/60 flex items-center justify-center
+           transition-all duration-300 hover:border-purple-500/30 hover:bg-purple-500/5 disabled:opacity-50
+           disabled:cursor-not-allowed disabled:hover:border-white/10 disabled:hover:bg-transparent;
+  }
+
+  .project-card {
+    opacity: 0;
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .project-card.hidden {
+    display: none;
+  }
 </style>
 
 <script>
@@ -223,8 +263,70 @@ import { projects } from '../data/projects';
     }
   }
 
+  function initializePagination() {
+    const projectCards = document.querySelectorAll('.project-card');
+    const pageButtons = document.querySelectorAll('.pagination-page-btn');
+    const prevButton = document.getElementById('prev-page');
+    const nextButton = document.getElementById('next-page');
+    let currentPage = 1;
+
+    function showPage(page) {
+      projectCards.forEach(card => {
+        if (parseInt(card.getAttribute('data-page')) === page) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      pageButtons.forEach(btn => {
+        const btnPage = parseInt(btn.getAttribute('data-page'));
+        if (btnPage === page) {
+          btn.classList.add('border-purple-500/50', 'bg-purple-500/10', 'text-white');
+          btn.classList.remove('border-white/10', 'text-white/60');
+        } else {
+          btn.classList.remove('border-purple-500/50', 'bg-purple-500/10', 'text-white');
+          btn.classList.add('border-white/10', 'text-white/60');
+        }
+      });
+
+      prevButton.disabled = page === 1;
+      nextButton.disabled = page === pageButtons.length;
+      currentPage = page;
+    }
+
+    pageButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const page = parseInt(btn.getAttribute('data-page'));
+        showPage(page);
+      });
+    });
+
+    prevButton?.addEventListener('click', () => {
+      if (currentPage > 1) {
+        showPage(currentPage - 1);
+      }
+    });
+
+    nextButton?.addEventListener('click', () => {
+      if (currentPage < pageButtons.length) {
+        showPage(currentPage + 1);
+      }
+    });
+
+    // Show first page initially
+    showPage(1);
+  }
+
   // Initialize on page load
-  document.addEventListener('DOMContentLoaded', initializeTabSwitching);
+  document.addEventListener('DOMContentLoaded', () => {
+    initializeTabSwitching();
+    initializePagination();
+  });
+
   // Also initialize when Astro handles client-side navigation
-  document.addEventListener('astro:page-load', initializeTabSwitching);
+  document.addEventListener('astro:page-load', () => {
+    initializeTabSwitching();
+    initializePagination();
+  });
 </script>
