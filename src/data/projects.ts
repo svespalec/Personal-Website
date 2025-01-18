@@ -28,5 +28,12 @@ export const projects: Project[] = [
     tags: ["Python", "Machine Learning", "Big Data"],
     github: "#",
     demo: "#"
+  },
+  {
+    title: "Test Project",
+    description: "A test project to demonstrate pagination functionality.",
+    tags: ["Testing", "Demo"],
+    github: "#",
+    demo: "#"
   }
 ];

@@ -4,9 +4,13 @@ import type { SkillSection } from '../types';
 import { skills } from '../data/skills';
 ---
 
-<div class="tab-switcher flex justify-center gap-8 mb-16">
-  <button id="skills-tab" class="text-xl font-medium text-white/90 hover:text-purple-400 transition-colors duration-300 active-tab">Skills</button>
-  <button id="projects-tab" class="text-xl font-medium text-white/60 hover:text-purple-400 transition-colors duration-300">Projects</button>
+<div class="tab-switcher flex gap-4 container mx-auto px-4 mt-24 mb-16">
+  <button id="skills-tab" class="tab-button active-tab">
+    <span class="relative z-10">Skills</span>
+  </button>
+  <button id="projects-tab" class="tab-button">
+    <span class="relative z-10">Projects</span>
+  </button>
 </div>
 
 <section id="skills-section" class="py-16 relative">
@@ -83,25 +87,64 @@ import { skills } from '../data/skills';
     }
   }
 
-  .active-tab {
-    @apply text-purple-400;
-    position: relative;
+  .tab-button {
+    @apply relative px-6 py-2.5 text-lg font-medium text-white/70 transition-all duration-300 rounded-lg;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
   }
 
-  .active-tab::after {
+  .tab-button::before {
     content: '';
     position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: theme('colors.purple.400');
-    transform-origin: center;
-    transform: scaleX(0.7);
-    transition: transform 0.3s ease;
+    inset: 0;
+    border-radius: 8px;
+    background: linear-gradient(to right, theme('colors.purple.500'), theme('colors.purple.600'));
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
-  .active-tab:hover::after {
-    transform: scaleX(1);
+  .tab-button:hover {
+    @apply text-white;
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .active-tab {
+    @apply text-white;
+    border-color: theme('colors.purple.500 / 30%');
+  }
+
+  .active-tab::before {
+    opacity: 0.1;
   }
 </style>
+
+<script>
+  function initializeTabSwitching() {
+    const skillsTab = document.getElementById('skills-tab');
+    const projectsTab = document.getElementById('projects-tab');
+    const skillsSection = document.getElementById('skills-section');
+    const projectsSection = document.getElementById('projects-section');
+
+    if (skillsTab && projectsTab && skillsSection && projectsSection) {
+      skillsTab.addEventListener('click', () => {
+        skillsTab.classList.add('active-tab');
+        projectsTab.classList.remove('active-tab');
+        skillsSection.classList.remove('hidden');
+        projectsSection.classList.add('hidden');
+      });
+
+      projectsTab.addEventListener('click', () => {
+        projectsTab.classList.add('active-tab');
+        skillsTab.classList.remove('active-tab');
+        projectsSection.classList.remove('hidden');
+        skillsSection.classList.add('hidden');
+      });
+    }
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', initializeTabSwitching);
+  // Also initialize when Astro handles client-side navigation
+  document.addEventListener('astro:page-load', initializeTabSwitching);
+</script>
