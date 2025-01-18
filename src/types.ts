@@ -1,7 +1,12 @@
+export interface SkillItem {
+  name: string;
+  description: string;
+}
+
 export interface SkillSection {
   title: string;
-  description?: string;
-  items: string[];
+  description: string;
+  items: SkillItem[];
   icon: string;
 }
 

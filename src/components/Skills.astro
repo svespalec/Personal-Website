@@ -11,31 +11,47 @@ import { skills } from '../data/skills';
   
   <div class="container mx-auto px-4">
     <div class="max-w-3xl">
-      <h2 class="text-3xl font-bold mb-10 text-white/90 tracking-tight">
-        <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-purple-600">Skills</span>
+      <h2 class="text-4xl font-bold mb-2 text-white/90 tracking-tight">
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600">Skills</span>
       </h2>
+      <p class="text-white/60 mb-10 text-lg">Technical expertise and core competencies</p>
     
       <div class="grid grid-cols-1 gap-6">
         {skills.map((skill, index) => (
-          <div class="group bg-[#1A1A1C]/50 border border-white/[0.08] rounded-lg p-5
+          <div class="group bg-[#1A1A1C]/50 border border-white/[0.08] rounded-lg p-6
                      hover:border-purple-500/30 hover:bg-[#1A1A1C]/60
                      transition-all duration-300"
                style={`animation-delay: ${index * 100}ms`}>
-            <div class="flex items-center gap-3 mb-4">
+            <div class="flex items-center gap-3 mb-3">
               <div class="bg-purple-500/10 p-2.5 rounded-lg border border-purple-500/20 group-hover:border-purple-500/40 transition-all duration-300">
                 <Icon name={skill.icon} class="w-5 h-5 text-purple-400" />
               </div>
-              <h3 class="text-lg font-medium text-white/90 group-hover:text-white transition-colors duration-300">{skill.title}</h3>
+              <div>
+                <h3 class="text-lg font-medium text-white/90 group-hover:text-white transition-colors duration-300">{skill.title}</h3>
+                <p class="text-sm text-white/60 group-hover:text-white/70 transition-colors duration-300">{skill.description}</p>
+              </div>
             </div>
             
-            <div class="flex flex-wrap gap-1.5 pl-[2.8rem]">
+            <div class="flex flex-wrap gap-2 pl-[3.2rem]">
               {skill.items.map(item => (
-                <span class="px-3 py-1 text-sm rounded-lg bg-[#1A1A1C]/50 text-white/80
-                           border border-white/[0.08] hover:border-purple-500/30 
-                           transition-all duration-300 cursor-default
-                           hover:text-purple-300">
-                  {item}
-                </span>
+                <div class="group/item">
+                  <div class="relative">
+                    <span class="px-3 py-1.5 text-sm rounded-lg bg-purple-500/10 text-purple-300
+                               border border-purple-500/20 hover:border-purple-500/40 
+                               transition-all duration-300 cursor-default inline-block
+                               hover:bg-purple-500/20">
+                      {item.name}
+                    </span>
+                    <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 p-2 bg-[#1A1A1C] 
+                                rounded-lg border border-purple-500/20 text-xs text-white/80
+                                opacity-0 group-hover/item:opacity-100 pointer-events-none
+                                transition-all duration-300 z-10">
+                      {item.description}
+                      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 rotate-45 
+                                 w-2 h-2 bg-[#1A1A1C] border-r border-b border-purple-500/20"></div>
+                    </div>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
