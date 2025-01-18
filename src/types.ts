@@ -1,6 +1,6 @@
 export interface SkillSection {
   title: string;
-  description: string;
+  description?: string;
   items: string[];
   icon: string;
 }
