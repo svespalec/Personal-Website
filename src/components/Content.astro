@@ -133,22 +133,16 @@ const totalPages = Math.ceil((projects?.length || 0) / PROJECTS_PER_PAGE);
                 </div>
                 <p class="text-[0.95rem] text-white/60 group-hover:text-white/70 transition-colors duration-300 mt-2">{project.description}</p>
                 
-                <div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-4 text-sm">
-                  {project.latestCommit && (
-                    <div class="flex items-center gap-2 text-white/50 bg-white/[0.03] px-3 py-1.5 rounded-lg border border-white/[0.06]" title="Latest Commit">
-                      <Icon name="mdi:git" class="w-4 h-4 text-purple-400" />
-                      <span class="font-mono text-purple-300/90">{project.latestCommit.hash}</span>
-                      <span class="text-white/40">•</span>
-                      <span class="truncate max-w-[200px]" title={project.latestCommit.message}>
-                        {project.latestCommit.message}
-                      </span>
-                      <span class="text-white/40 shrink-0">•</span>
-                      <span class="whitespace-nowrap" title="Commit Date">
-                        {new Date(project.latestCommit.date).toLocaleDateString()}
-                      </span>
-                    </div>
-                  )}
-                  
+                <div class="flex flex-wrap gap-2 mt-4">
+                  {project.tags.map(tag => (
+                    <span class="px-3 py-1.5 text-sm rounded-lg bg-purple-500/[0.08] text-purple-300/90
+                               border border-purple-500/20 transition-all duration-300 cursor-default inline-block">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 mt-4 text-sm">
                   <div class="flex items-center gap-4 text-white/50">
                     <div class="flex items-center gap-1.5" title="Stars">
                       <Icon name="mdi:star" class="w-4 h-4 text-yellow-500/70" />
@@ -158,20 +152,27 @@ const totalPages = Math.ceil((projects?.length || 0) / PROJECTS_PER_PAGE);
                       <Icon name="mdi:source-fork" class="w-4 h-4 text-purple-400/70" />
                       <span>{project.forks}</span>
                     </div>
-                    <div class="flex items-center gap-1.5" title="Last Updated">
-                      <Icon name="mdi:clock-outline" class="w-4 h-4 text-blue-400/70" />
-                      <span>{new Date(project.lastUpdate).toLocaleDateString()}</span>
+                    <div class="flex items-center gap-1.5" title="Created At">
+                      <Icon name="mdi:calendar" class="w-4 h-4 text-blue-400/70" />
+                      <span>{new Date(project.createdAt).toLocaleDateString()}</span>
                     </div>
                   </div>
-                </div>
 
-                <div class="flex flex-wrap gap-2 mt-4">
-                  {project.tags.map(tag => (
-                    <span class="px-3 py-1.5 text-sm rounded-lg bg-purple-500/[0.08] text-purple-300/90
-                               border border-purple-500/20 transition-all duration-300 cursor-default inline-block">
-                      {tag}
-                    </span>
-                  ))}
+                  {project.latestCommit && (
+                    <div class="flex items-center gap-2 text-white/50" title="Latest Commit">
+                      <Icon name="mdi:git" class="w-4 h-4 text-purple-400" />
+                      <a href={project.latestCommit.url} 
+                         class="font-mono text-purple-300/90 hover:text-purple-300 transition-colors duration-300"
+                         target="_blank" 
+                         rel="noopener noreferrer">
+                        {project.latestCommit.hash}
+                      </a>
+                      <span class="text-white/40">•</span>
+                      <span class="truncate max-w-[200px]" title={project.latestCommit.message}>
+                        {project.latestCommit.message}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

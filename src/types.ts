@@ -16,12 +16,13 @@ export interface Project {
   tags: string[];
   github: string;
   demo: string;
-  lastUpdate: string;
+  createdAt: string;
   stars: number;
   forks: number;
   latestCommit: {
     hash: string;
     message: string;
     date: string;
+    url: string;
   } | null;
 }

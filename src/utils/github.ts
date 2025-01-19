@@ -11,6 +11,7 @@ interface GitHubRepo {
   stargazers_count: number;
   language: string;
   pushed_at: string;
+  created_at: string;
   forks_count: number;
   default_branch: string;
 }
@@ -43,13 +44,14 @@ export async function fetchGitHubProjects(username: string): Promise<Project[]> 
             repo.language,
             ...repo.topics
           ].filter(Boolean) as string[],
-          lastUpdate: repo.pushed_at,
+          createdAt: repo.created_at,
           stars: repo.stargazers_count,
           forks: repo.forks_count,
           latestCommit: commitData ? {
             hash: commitData.sha.substring(0, 7),
             message: commitData.commit.message,
-            date: commitData.commit.author.date
+            date: commitData.commit.author.date,
+            url: `${repo.html_url}/commit/${commitData.sha}`
           } : null
         };
       })
