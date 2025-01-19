@@ -25,7 +25,7 @@ interface SocialLinks {
     email: "vespalecsamuel@gmail.com",
     github: {
       username: "svespalec",
-      repoLimit: 6,
+      repoLimit: 100,
     },
     social: {
       github: "https://github.com/svespalec",
