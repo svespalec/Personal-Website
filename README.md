@@ -70,20 +70,30 @@ The application will be available at `http://localhost:3000`
 
 ### 🚀 VPS Deployment Setup
 
-1. Copy `vps-init.sh` to your VPS and make it executable:
+1. Create a GitHub Personal Access Token (PAT):
+   - Go to GitHub Settings → Developer Settings → Personal Access Tokens → Tokens (classic)
+   - Generate new token (classic)
+   - Give it a name (e.g., "VPS Container Registry Access")
+   - Under "Select scopes", ONLY check:
+     - `read:packages` (under "Packages" section)
+   - Do NOT select any other permissions
+   - Copy the generated token
+
+2. Copy `vps-init.sh` to your VPS and make it executable:
    ```sh
    chmod +x vps-init.sh
    sudo ./vps-init.sh
    ```
 
-2. After the script completes:
+3. After the script completes:
    - Replace `your-domain.com` in `/etc/caddy/Caddyfile` with your actual domain
    - Add your GitHub Actions SSH public key to `/home/deploy/.ssh/authorized_keys`
 
-3. Add the following secrets to your GitHub repository:
+4. Add the following secrets to your GitHub repository:
    - `VPS_HOST`: Your VPS IP address
    - `VPS_USERNAME`: Set this to `deploy`
    - `VPS_SSH_KEY`: Your SSH private key for deployment
+   - `CR_PAT`: The Personal Access Token you created in step 1
 
 The deployment is then automated:
 - Push to the master branch
