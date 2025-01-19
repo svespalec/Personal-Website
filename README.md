@@ -68,25 +68,29 @@ docker compose up --build -d
 
 The application will be available at `http://localhost:3000`
 
-### 🚀 Automated Deployment with GitHub Actions
+### 🚀 VPS Deployment Setup
 
-This project includes automated deployment to a VPS using GitHub Actions. To set it up:
+1. Copy `vps-init.sh` to your VPS and make it executable:
+   ```sh
+   chmod +x vps-init.sh
+   sudo ./vps-init.sh
+   ```
 
-1. Add the following secrets to your GitHub repository:
+2. After the script completes:
+   - Replace `your-domain.com` in `/etc/caddy/Caddyfile` with your actual domain
+   - Add your GitHub Actions SSH public key to `/home/deploy/.ssh/authorized_keys`
+
+3. Add the following secrets to your GitHub repository:
    - `VPS_HOST`: Your VPS IP address
-   - `VPS_USERNAME`: SSH username for your VPS
-   - `VPS_SSH_KEY`: SSH private key for authentication
+   - `VPS_USERNAME`: Set this to `deploy`
+   - `VPS_SSH_KEY`: Your SSH private key for deployment
 
-Note: The workflow uses GitHub Container Registry (ghcr.io) for storing the Docker image, which automatically uses your repository's `GITHUB_TOKEN` secret.
+The deployment is then automated:
+- Push to the master branch
+- GitHub Actions will build and deploy
+- Your site will be available at your domain through Cloudflare
 
-2. Push to the master branch, and GitHub Actions will automatically:
-   - Build the Docker image
-   - Push it to GitHub Container Registry
-   - Deploy it to your VPS
-
-The container will run on port 3000, which you can then reverse proxy using Caddy on your server.
-
-Example Caddyfile configuration (add this to your server's Caddyfile):
+Example Caddyfile configuration (this is already set up by the script):
 ```
 your-domain.com {
     reverse_proxy localhost:3000
