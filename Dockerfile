@@ -1,7 +1,7 @@
 FROM node:18-alpine
 
 # Install pnpm
-RUN npm install -g pnpm
+RUN npm install -g pnpm serve
 
 WORKDIR /app
 COPY package*.json ./
@@ -14,4 +14,4 @@ ENV HOST=0.0.0.0
 ENV PORT=3000
 EXPOSE 3000
 
-CMD ["node", "./dist/server/entry.mjs"] 
+CMD ["serve", "-s", "dist", "-l", "3000"] 
