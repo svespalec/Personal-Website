@@ -1,5 +1,6 @@
 ---
 import '@fontsource/inter';
+import { initSmoothScroll } from '../utils/scroll';
 
 interface Props {
   title: string;
@@ -9,7 +10,7 @@ const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en" class="dark lenis lenis-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content="Samuel's Portfolio - Software Engineer & Security Expert" />
@@ -25,7 +26,18 @@ const { title } = Astro.props;
   </body>
 </html>
 
+<script>
+  import { initSmoothScroll } from '../utils/scroll';
+  
+  // Initialize smooth scrolling
+  initSmoothScroll();
+</script>
+
 <style is:global>
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+
   :root {
     --accent: 136, 58, 234;
     --accent-light: 224, 204, 250;
@@ -48,5 +60,39 @@ const { title } = Astro.props;
     font-family: 'Inter', system-ui, sans-serif;
     background: #13151a;
     scroll-behavior: smooth;
+    height: auto;
+  }
+
+  /* Custom Scrollbar */
+  @layer base {
+    ::-webkit-scrollbar {
+      @apply h-2.5 w-2 transition;
+    }
+    ::-webkit-scrollbar-track {
+      @apply bg-background;
+    }
+    ::-webkit-scrollbar-thumb {
+      @apply bg-muted;
+    }
+    ::-webkit-scrollbar-thumb:active {
+      @apply bg-primary;
+    }
+  }
+
+  /* Locomotive Scroll Styles */
+  .lenis.lenis-smooth {
+    scroll-behavior: auto;
+  }
+  
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+  
+  .lenis.lenis-scrolling iframe {
+    pointer-events: none;
   }
 </style>
