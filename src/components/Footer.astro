@@ -1,4 +1,5 @@
 ---
+import config from '../config';
 import { Icon } from 'astro-icon/components';
 ---
 
@@ -6,16 +7,16 @@ import { Icon } from 'astro-icon/components';
   <div class="container mx-auto px-4">
     <div class="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
       <div class="text-center sm:text-left">
-        <p class="text-sm sm:text-base text-white/60">&copy; 2025 Samuel Vespalec. All rights reserved.</p>
+        <p class="text-sm sm:text-base text-white/60">&copy; {new Date().getFullYear()} {config.name}. All rights reserved.</p>
       </div>
       <div class="flex gap-4 sm:gap-6">
-        <a href="mailto:vespalecsamuel@gmail.com" class="text-white/60 hover:text-purple-400 transition-colors p-2">
+        <a href={config.social.email} class="text-white/60 hover:text-purple-400 transition-colors p-2">
           <Icon name="mdi:email" class="w-5 h-5" />
         </a>
-        <a href="https://github.com/svespalec" class="text-white/60 hover:text-purple-400 transition-colors p-2">
+        <a href={config.social.github} class="text-white/60 hover:text-purple-400 transition-colors p-2">
           <Icon name="mdi:github" class="w-5 h-5" />
         </a>
-        <a href="https://linkedin.com/in/samuel-vespalec" class="text-white/60 hover:text-purple-400 transition-colors p-2">
+        <a href={config.social.linkedin} class="text-white/60 hover:text-purple-400 transition-colors p-2">
           <Icon name="mdi:linkedin" class="w-5 h-5" />
         </a>
       </div>
