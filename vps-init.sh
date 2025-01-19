@@ -41,8 +41,11 @@ systemctl enable --now caddy
 
 # Configure Caddy
 cat > /etc/caddy/Caddyfile << 'EOF'
-# Simple reverse proxy configuration
+# Simple reverse proxy configuration with Cloudflare
 your-domain.com {
+    # Disable automatic HTTPS since Cloudflare handles SSL
+    tls internal
+
     reverse_proxy localhost:3000
 }
 EOF
@@ -53,8 +56,11 @@ systemctl restart caddy
 echo "=== Setup Complete ==="
 echo "Next steps:"
 echo "1. Add your GitHub Actions SSH public key to /home/deploy/.ssh/authorized_keys"
-echo "   The deploy user can ONLY run specific Docker commands needed for deployment"
-echo "2. Configure Caddy for your domain (edit /etc/caddy/Caddyfile)"
+echo "2. Replace 'your-domain.com' in /etc/caddy/Caddyfile with your actual domain"
+echo "3. Make sure in Cloudflare:"
+echo "   - SSL/TLS encryption mode is set to 'Flexible'"
+echo "   - Your A record points to this VPS IP"
+echo "   - Proxy status (orange cloud) is enabled"
 echo ""
 echo "Deployment Flow:"
 echo "- When you push to master branch, GitHub Actions will:"
