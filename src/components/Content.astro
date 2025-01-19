@@ -124,12 +124,47 @@ const totalPages = Math.ceil((projects?.length || 0) / PROJECTS_PER_PAGE);
                     <a href={project.github} class="text-white/60 hover:text-white/90 transition-colors duration-300 hover:scale-110 transform">
                       <Icon name="mdi:github" class="w-6 h-6" />
                     </a>
-                    <a href={project.demo} class="text-white/60 hover:text-white/90 transition-colors duration-300 hover:scale-110 transform">
-                      <Icon name="mdi:open-in-new" class="w-6 h-6" />
-                    </a>
+                    {project.demo && (
+                      <a href={project.demo} class="text-white/60 hover:text-white/90 transition-colors duration-300 hover:scale-110 transform">
+                        <Icon name="mdi:open-in-new" class="w-6 h-6" />
+                      </a>
+                    )}
                   </div>
                 </div>
                 <p class="text-[0.95rem] text-white/60 group-hover:text-white/70 transition-colors duration-300 mt-2">{project.description}</p>
+                
+                <div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-4 text-sm">
+                  {project.latestCommit && (
+                    <div class="flex items-center gap-2 text-white/50 bg-white/[0.03] px-3 py-1.5 rounded-lg border border-white/[0.06]" title="Latest Commit">
+                      <Icon name="mdi:git" class="w-4 h-4 text-purple-400" />
+                      <span class="font-mono text-purple-300/90">{project.latestCommit.hash}</span>
+                      <span class="text-white/40">•</span>
+                      <span class="truncate max-w-[200px]" title={project.latestCommit.message}>
+                        {project.latestCommit.message}
+                      </span>
+                      <span class="text-white/40 shrink-0">•</span>
+                      <span class="whitespace-nowrap" title="Commit Date">
+                        {new Date(project.latestCommit.date).toLocaleDateString()}
+                      </span>
+                    </div>
+                  )}
+                  
+                  <div class="flex items-center gap-4 text-white/50">
+                    <div class="flex items-center gap-1.5" title="Stars">
+                      <Icon name="mdi:star" class="w-4 h-4 text-yellow-500/70" />
+                      <span>{project.stars}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5" title="Forks">
+                      <Icon name="mdi:source-fork" class="w-4 h-4 text-purple-400/70" />
+                      <span>{project.forks}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5" title="Last Updated">
+                      <Icon name="mdi:clock-outline" class="w-4 h-4 text-blue-400/70" />
+                      <span>{new Date(project.lastUpdate).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="flex flex-wrap gap-2 mt-4">
                   {project.tags.map(tag => (
                     <span class="px-3 py-1.5 text-sm rounded-lg bg-purple-500/[0.08] text-purple-300/90
