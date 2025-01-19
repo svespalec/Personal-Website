@@ -1,11 +1,18 @@
 ---
 import { Icon } from 'astro-icon/components';
-import type { SkillSection } from '../types';
+import type { SkillSection, Project } from '../types';
 import { skills } from '../data/skills';
-import { projects } from '../data/projects';
+import { fetchGitHubProjects } from '../utils/github';
+
+let projects: Project[] = [];
+try {
+  projects = await fetchGitHubProjects('svespalec'); // Replace with your GitHub username
+} catch (error) {
+  console.error('Failed to fetch GitHub projects:', error);
+}
 
 const PROJECTS_PER_PAGE = 4;
-const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
+const totalPages = Math.ceil((projects?.length || 0) / PROJECTS_PER_PAGE);
 ---
 
 <div class="container mx-auto px-4 mt-16 sm:mt-24">
@@ -45,9 +52,9 @@ const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
                      hover:border-purple-500/30 backdrop-blur-sm
                      transition-all duration-500 ease-out transform hover:scale-[1.02]"
                style={`animation-delay: ${index * 100}ms`}>
-            <div class="flex items-start gap-4">
+            <div class="flex flex-col sm:flex-row sm:items-start gap-4">
               <div class="bg-purple-500/10 p-3 rounded-xl border border-purple-500/20 group-hover:border-purple-500/40 
-                          transition-all duration-500 group-hover:shadow-[0_0_1.5rem_0_rgba(168,85,247,0.1)] shrink-0 w-12 h-12 flex items-center justify-center">
+                          transition-all duration-500 group-hover:shadow-[0_0_1.5rem_0_rgba(168,85,247,0.1)]">
                 <Icon name={skill.icon} class="w-6 h-6 text-purple-400" />
               </div>
               <div class="flex-1">
