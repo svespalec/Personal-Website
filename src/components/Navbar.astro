@@ -7,7 +7,13 @@ import { Icon } from 'astro-icon/components';
     <div class="flex items-center justify-between h-16">
       <a href="/" class="font-bold text-white text-xl tracking-tight">Samuel</a>
       
-      <div class="flex items-center gap-3">
+      <!-- Mobile menu button -->
+      <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg bg-white/5 text-white/90 hover:bg-white/10 hover:text-white transition-all border border-white/5 hover:border-white/10">
+        <Icon name="mdi:menu" class="w-6 h-6" />
+      </button>
+
+      <!-- Desktop navigation -->
+      <div class="hidden md:flex items-center gap-3">
         <a 
           href="https://github.com/svespalec" 
           class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 text-white/90 hover:bg-white/10 hover:text-white transition-all border border-white/5 hover:border-white/10"
@@ -30,5 +36,51 @@ import { Icon } from 'astro-icon/components';
         </a>
       </div>
     </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-white/5 py-4">
+      <div class="flex flex-col gap-2">
+        <a 
+          href="https://github.com/svespalec" 
+          class="flex items-center gap-2 px-4 py-3 rounded-lg bg-white/5 text-white/90 hover:bg-white/10 hover:text-white transition-all border border-white/5 hover:border-white/10"
+        >
+          <Icon name="mdi:github" class="w-5 h-5" />
+          GitHub
+        </a>
+        <a 
+          href="https://linkedin.com/in/samuel-vespalec" 
+          class="flex items-center gap-2 px-4 py-3 rounded-lg bg-white/5 text-white/90 hover:bg-white/10 hover:text-white transition-all border border-white/5 hover:border-white/10"
+        >
+          <Icon name="mdi:linkedin" class="w-5 h-5" />
+          LinkedIn
+        </a>
+        <a 
+          href="/resume.pdf" 
+          class="flex items-center gap-2 px-4 py-3 rounded-lg bg-purple-500/10 text-purple-300/90 hover:text-purple-300 hover:bg-purple-500/20 transition-all border border-purple-500/20 hover:border-purple-500/30"
+        >
+          <Icon name="mdi:download" class="w-5 h-5" />
+          Resume
+        </a>
+      </div>
+    </div>
   </div>
 </nav>
+
+<script>
+  function setupMobileMenu() {
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (mobileMenuButton && mobileMenu) {
+      mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', setupMobileMenu);
+
+  // Also initialize when Astro handles client-side navigation
+  document.addEventListener('astro:page-load', setupMobileMenu);
+</script>

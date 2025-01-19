@@ -42,10 +42,8 @@ systemctl enable --now caddy
 # Configure Caddy
 cat > /etc/caddy/Caddyfile << 'EOF'
 # Simple reverse proxy configuration with Cloudflare
-your-domain.com {
-    # Disable automatic HTTPS since Cloudflare handles SSL
-    tls internal
-
+http://your-domain.com {
+    # No TLS needed as Cloudflare handles SSL
     reverse_proxy localhost:3000
 }
 EOF

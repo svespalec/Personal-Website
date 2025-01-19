@@ -8,71 +8,75 @@ const PROJECTS_PER_PAGE = 4;
 const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
 ---
 
-<div class="container mx-auto px-4 mt-24 mb-16">
+<div class="container mx-auto px-4 mt-16 sm:mt-24">
   <div class="tab-switcher inline-flex p-1 bg-white/[0.02] backdrop-blur-xl border border-white/[0.05] rounded-xl">
     <button id="skills-tab" class="tab-button active-tab">
       <div class="tab-highlight"></div>
-      <Icon name="mdi:code-braces" class="w-5 h-5 mr-2" />
-      <span class="relative z-10">Skills</span>
+      <div class="flex items-center">
+        <Icon name="mdi:code-braces" class="w-5 h-5 mr-2 shrink-0" />
+        <span class="relative z-10">Skills</span>
+      </div>
     </button>
     <button id="projects-tab" class="tab-button">
       <div class="tab-highlight"></div>
-      <Icon name="mdi:rocket-launch" class="w-5 h-5 mr-2" />
-      <span class="relative z-10">Projects</span>
+      <div class="flex items-center">
+        <Icon name="mdi:rocket-launch" class="w-5 h-5 mr-2 shrink-0" />
+        <span class="relative z-10">Projects</span>
+      </div>
     </button>
   </div>
 </div>
 
-<section id="skills-section" class="py-16 relative">
+<section id="skills-section" class="py-12 sm:py-16 relative">
   <div class="absolute inset-0 grid grid-cols-[repeat(auto-fit,minmax(5rem,1fr))] gap-20 opacity-[0.15] blur-[1px] -z-10">
     <div class="bg-gradient-to-b from-purple-500/50 to-transparent h-60 rounded-lg"></div>
   </div>
   
   <div class="container mx-auto px-4">
     <div class="max-w-4xl">
-      <h2 class="text-4xl font-bold mb-2 text-white/90 tracking-tight">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-2 text-white/90 tracking-tight">
         <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600">Skills</span>
       </h2>
-      <p class="text-white/60 mb-12 text-lg">Technical expertise and core competencies</p>
+      <p class="text-base sm:text-lg text-white/60 mb-8 sm:mb-12">Technical expertise and core competencies</p>
     
-      <div class="grid grid-cols-1 gap-8">
+      <div class="grid grid-cols-1 gap-6 sm:gap-8">
         {skills.map((skill, index) => (
-          <div class="group bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.08] rounded-xl p-7
+          <div class="group bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.08] rounded-xl p-5 sm:p-7
                      hover:border-purple-500/30 backdrop-blur-sm
                      transition-all duration-500 ease-out transform hover:scale-[1.02]"
                style={`animation-delay: ${index * 100}ms`}>
-            <div class="flex items-start gap-4 mb-4">
+            <div class="flex flex-col sm:flex-row sm:items-start gap-4">
               <div class="bg-purple-500/10 p-3 rounded-xl border border-purple-500/20 group-hover:border-purple-500/40 
                           transition-all duration-500 group-hover:shadow-[0_0_1.5rem_0_rgba(168,85,247,0.1)]">
                 <Icon name={skill.icon} class="w-6 h-6 text-purple-400" />
               </div>
-              <div>
-                <h3 class="text-xl font-medium text-white/90 group-hover:text-white transition-colors duration-300">{skill.title}</h3>
-                <p class="text-[0.95rem] text-white/60 group-hover:text-white/70 transition-colors duration-300 mt-1">{skill.description}</p>
-              </div>
-            </div>
-            
-            <div class="flex flex-wrap gap-2 pl-[4rem]">
-              {skill.items.map(item => (
-                <div class="group/item">
-                  <div class="relative">
-                    <span class="px-4 py-2 text-[0.9rem] rounded-lg bg-purple-500/[0.08] text-purple-300/90
-                               border border-purple-500/20 hover:border-purple-500/40 
-                               transition-all duration-300 cursor-default inline-block
-                               hover:bg-purple-500/[0.15] hover:shadow-[0_0_1rem_0_rgba(168,85,247,0.1)]">
-                      {item.name}
-                    </span>
-                    <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-52 p-3 bg-[#1A1A1C]/95 
-                                rounded-lg border border-purple-500/20 text-sm text-white/80
-                                opacity-0 group-hover/item:opacity-100 pointer-events-none backdrop-blur-xl
-                                transition-all duration-300 z-10 shadow-xl">
-                      {item.description}
-                      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 rotate-45 
-                                 w-2.5 h-2.5 bg-[#1A1A1C]/95 border-r border-b border-purple-500/20"></div>
+              <div class="flex-1">
+                <h3 class="text-lg sm:text-xl font-medium text-white/90 group-hover:text-white transition-colors duration-300">{skill.title}</h3>
+                <p class="text-sm sm:text-[0.95rem] text-white/60 group-hover:text-white/70 transition-colors duration-300 mt-1">{skill.description}</p>
+                
+                <div class="flex flex-wrap gap-2 mt-4">
+                  {skill.items.map(item => (
+                    <div class="group/item">
+                      <div class="relative">
+                        <span class="px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-[0.9rem] rounded-lg bg-purple-500/[0.08] text-purple-300/90
+                                   border border-purple-500/20 hover:border-purple-500/40 
+                                   transition-all duration-300 cursor-default inline-block
+                                   hover:bg-purple-500/[0.15] hover:shadow-[0_0_1rem_0_rgba(168,85,247,0.1)]">
+                          {item.name}
+                        </span>
+                        <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-52 p-3 bg-[#1A1A1C]/95 
+                                    rounded-lg border border-purple-500/20 text-sm text-white/80
+                                    opacity-0 group-hover/item:opacity-100 pointer-events-none backdrop-blur-xl
+                                    transition-all duration-300 z-10 shadow-xl hidden sm:block">
+                          {item.description}
+                          <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 rotate-45 
+                                     w-2.5 h-2.5 bg-[#1A1A1C]/95 border-r border-b border-purple-500/20"></div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         ))}
@@ -96,19 +100,19 @@ const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
       <div class="grid grid-cols-1 gap-8">
         {projects.map((project, index) => (
           <div class="group bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.08] rounded-xl p-7
-                     hover:border-purple-500/30 backdrop-blur-sm project-card hidden h-[180px]
+                     hover:border-purple-500/30 backdrop-blur-sm project-card hidden
                      transition-all duration-500 ease-out transform hover:scale-[1.02]"
                data-page={Math.floor(index / PROJECTS_PER_PAGE) + 1}
                style={`animation-delay: ${(index % PROJECTS_PER_PAGE) * 100}ms`}>
-            <div class="flex items-start gap-4 h-full">
+            <div class="flex items-start gap-4">
               <div class="bg-purple-500/10 p-3 rounded-xl border border-purple-500/20 group-hover:border-purple-500/40 
-                          transition-all duration-500 group-hover:shadow-[0_0_1.5rem_0_rgba(168,85,247,0.1)]">
+                          transition-all duration-500 group-hover:shadow-[0_0_1.5rem_0_rgba(168,85,247,0.1)] shrink-0">
                 <Icon name="mdi:folder-outline" class="w-7 h-7 text-purple-400" />
               </div>
-              <div class="flex-1 flex flex-col">
-                <div class="flex items-center justify-between">
+              <div class="flex-1">
+                <div class="flex items-center justify-between flex-wrap gap-4">
                   <h3 class="text-xl font-medium text-white/90 group-hover:text-white transition-colors duration-300">{project.title}</h3>
-                  <div class="flex gap-4">
+                  <div class="flex gap-4 shrink-0">
                     <a href={project.github} class="text-white/60 hover:text-white/90 transition-colors duration-300 hover:scale-110 transform">
                       <Icon name="mdi:github" class="w-6 h-6" />
                     </a>
@@ -117,10 +121,10 @@ const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
                     </a>
                   </div>
                 </div>
-                <p class="text-[0.95rem] text-white/60 group-hover:text-white/70 transition-colors duration-300 mt-1">{project.description}</p>
-                <div class="flex flex-wrap gap-2 mt-auto pt-4">
+                <p class="text-[0.95rem] text-white/60 group-hover:text-white/70 transition-colors duration-300 mt-2">{project.description}</p>
+                <div class="flex flex-wrap gap-2 mt-4">
                   {project.tags.map(tag => (
-                    <span class="px-4 py-2 text-[0.9rem] rounded-lg bg-purple-500/[0.08] text-purple-300/90
+                    <span class="px-3 py-1.5 text-sm rounded-lg bg-purple-500/[0.08] text-purple-300/90
                                border border-purple-500/20 transition-all duration-300 cursor-default inline-block">
                       {tag}
                     </span>
@@ -266,13 +270,13 @@ const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
   function initializePagination() {
     const projectCards = document.querySelectorAll('.project-card');
     const pageButtons = document.querySelectorAll('.pagination-page-btn');
-    const prevButton = document.getElementById('prev-page');
-    const nextButton = document.getElementById('next-page');
+    const prevButton = document.getElementById('prev-page') as HTMLButtonElement;
+    const nextButton = document.getElementById('next-page') as HTMLButtonElement;
     let currentPage = 1;
 
-    function showPage(page) {
+    function showPage(page: number) {
       projectCards.forEach(card => {
-        if (parseInt(card.getAttribute('data-page')) === page) {
+        if (parseInt(card.getAttribute('data-page') || '1') === page) {
           card.classList.remove('hidden');
         } else {
           card.classList.add('hidden');
@@ -280,7 +284,7 @@ const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
       });
 
       pageButtons.forEach(btn => {
-        const btnPage = parseInt(btn.getAttribute('data-page'));
+        const btnPage = parseInt(btn.getAttribute('data-page') || '1');
         if (btnPage === page) {
           btn.classList.add('border-purple-500/50', 'bg-purple-500/10', 'text-white');
           btn.classList.remove('border-white/10', 'text-white/60');
@@ -290,8 +294,8 @@ const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
         }
       });
 
-      prevButton.disabled = page === 1;
-      nextButton.disabled = page === pageButtons.length;
+      if (prevButton) prevButton.disabled = page === 1;
+      if (nextButton) nextButton.disabled = page === pageButtons.length;
       currentPage = page;
     }
 
