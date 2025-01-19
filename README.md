@@ -31,12 +31,25 @@ A modern, fast portfolio website built using Astro framework with TailwindCSS in
    npm install -g pnpm
    ```
 
-1. **Install dependencies:**
+1. **Set up GitHub Token:**
+   - Go to GitHub Settings → Developer Settings → Personal Access Tokens → Tokens (classic)
+   - Generate new token (classic)
+   - Give it a name (e.g., "Portfolio GitHub Projects")
+   - Under "Select scopes", check:
+     - `public_repo` (to read public repository data)
+   - Copy the generated token
+   - Create a `.env` file in the project root:
+     ```sh
+     PORTFOLIO_GITHUB_TOKEN=your_token_here
+     ```
+   This token is required to fetch your GitHub projects data and avoid API rate limits.
+
+2. **Install dependencies:**
    ```sh
    pnpm install
    ```
 
-2. **Start development server:**
+3. **Start development server:**
    ```sh
    pnpm run dev
    ```
@@ -61,23 +74,36 @@ A modern, fast portfolio website built using Astro framework with TailwindCSS in
 
 ### Local Docker Deployment
 
-Build and run the container with a single command:
-```sh
-docker compose up --build -d
-```
+1. **Set environment variable:**
+   ```sh
+   export PORTFOLIO_GITHUB_TOKEN=your_token_here
+   ```
+   Or create a `.env` file in the project root with the token.
+
+2. **Build and run:**
+   ```sh
+   docker compose up --build -d
+   ```
 
 The application will be available at `http://localhost:3000`
 
 ### 🚀 VPS Deployment Setup
 
-1. Create a GitHub Personal Access Token (PAT):
+1. Create GitHub Personal Access Tokens:
+
+   a) **Container Registry Token:**
    - Go to GitHub Settings → Developer Settings → Personal Access Tokens → Tokens (classic)
    - Generate new token (classic)
    - Give it a name (e.g., "VPS Container Registry Access")
    - Under "Select scopes", ONLY check:
      - `read:packages` (under "Packages" section)
-   - Do NOT select any other permissions
-   - Copy the generated token
+   - Copy the generated token (this will be your `CR_PAT`)
+
+   b) **Portfolio Projects Token:**
+   - Create another token with the name (e.g., "Portfolio GitHub Projects")
+   - Under "Select scopes", check:
+     - `public_repo` (to read public repository data)
+   - Copy the generated token (this will be your `PORTFOLIO_GITHUB_TOKEN`)
 
 2. Copy `vps-init.sh` to your VPS and make it executable:
    ```sh
@@ -93,7 +119,8 @@ The application will be available at `http://localhost:3000`
    - `VPS_HOST`: Your VPS IP address
    - `VPS_USERNAME`: Set this to `deploy`
    - `VPS_SSH_KEY`: Your SSH private key for deployment
-   - `CR_PAT`: The Personal Access Token you created in step 1
+   - `CR_PAT`: The Container Registry Token from step 1a
+   - `PORTFOLIO_GITHUB_TOKEN`: The Portfolio Projects Token from step 1b
 
 The deployment is then automated:
 - Push to the master branch

@@ -1,6 +1,7 @@
 import type { Project } from '../types';
 
 const GITHUB_API_URL = 'https://api.github.com';
+const GITHUB_TOKEN = import.meta.env.PORTFOLIO_GITHUB_TOKEN;
 
 interface GitHubRepo {
   name: string;
@@ -17,9 +18,20 @@ interface GitHubRepo {
 }
 
 export async function fetchGitHubProjects(username: string): Promise<Project[]> {
-  const response = await fetch(`${GITHUB_API_URL}/users/${username}/repos?sort=updated&per_page=10`);
+  const headers: HeadersInit = {
+    'Accept': 'application/vnd.github.v3+json'
+  };
+  
+  if (GITHUB_TOKEN) {
+    headers['Authorization'] = `Bearer ${GITHUB_TOKEN}`;
+  }
+
+  const response = await fetch(`${GITHUB_API_URL}/users/${username}/repos?sort=created&direction=desc&per_page=10`, {
+    headers
+  });
+  
   if (!response.ok) {
-    throw new Error('Failed to fetch GitHub repositories');
+    throw new Error(`Failed to fetch GitHub repositories: ${response.status} ${response.statusText}`);
   }
 
   const repos: GitHubRepo[] = await response.json();
@@ -29,7 +41,9 @@ export async function fetchGitHubProjects(username: string): Promise<Project[]> 
       .filter(repo => !repo.name.includes('.github.io'))
       .map(async (repo) => {
         // Fetch latest commit
-        const commitResponse = await fetch(`${GITHUB_API_URL}/repos/${username}/${repo.name}/commits/${repo.default_branch}`);
+        const commitResponse = await fetch(`${GITHUB_API_URL}/repos/${username}/${repo.name}/commits/${repo.default_branch}`, {
+          headers
+        });
         const commitData = commitResponse.ok ? await commitResponse.json() : null;
         
         return {

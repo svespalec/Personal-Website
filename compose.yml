@@ -4,4 +4,6 @@ services:
     container_name: astro-portfolio
     ports:
       - "3000:3000"
+    environment:
+      - PORTFOLIO_GITHUB_TOKEN=${PORTFOLIO_GITHUB_TOKEN}
     restart: unless-stopped 
