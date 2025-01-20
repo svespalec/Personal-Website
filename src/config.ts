@@ -34,7 +34,7 @@ interface SocialLinks {
     },
     siteMetadata: {
       title: "Samuel Vespalec - Backend Developer",
-      description: "Backend Developer specializing in cloud infrastructure, cybersecurity, and reverse engineering."
+      description: "A results-driven software engineer specializing in advanced system security and backend development. Expert in designing and implementing sophisticated anti-cheat solutions, reverse engineering, and high-performance backend systems."
     }
   };
   
