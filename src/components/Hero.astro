@@ -3,19 +3,19 @@ import { Icon } from 'astro-icon/components';
 import config from '../config';
 ---
 
-<section class="relative py-16 sm:py-24 md:py-32 lg:py-48 overflow-hidden bg-gradient-to-b from-[#030304] via-purple-900/30 to-[#030304]">
+<section class="relative py-16 sm:py-24 md:py-32 lg:py-40 overflow-hidden bg-gradient-to-b from-[#030304] via-purple-900/30 to-[#030304]">
   <!-- Grid background -->
   <div class="absolute inset-0 grid-bg opacity-30"></div>
   
   <div class="container mx-auto px-4 relative">
-    <div class="max-w-3xl">
+    <div class="max-w-4xl mx-auto ">
       <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6 tracking-tight text-white animate-fade-in">
         <span class="animate-slide-up block">Hello, I'm <span class="animated-gradient">{config.name}</span></span>
       </h1>
-      <p class="text-lg sm:text-xl text-white/80 mb-8 sm:mb-10 leading-relaxed animate-fade-in animate-delay-200">
+      <p class="text-lg sm:text-xl text-white/80 mb-8 sm:mb-10 leading-relaxed animate-fade-in animate-delay-200 max-w-2xl">
         {config.siteMetadata.description}
       </p>
-      <div class="flex flex-col sm:flex-row items-center gap-4">
+      <div class="flex flex-col sm:flex-row items-start gap-4">
         <a
           href={config.social.github}
           target="_blank"

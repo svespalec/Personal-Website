@@ -16,63 +16,80 @@ const PROJECTS_PER_PAGE = 4;
 const totalPages = Math.ceil((projects?.length || 0) / PROJECTS_PER_PAGE);
 ---
 
-<div class="container mx-auto px-4 mt-16 sm:mt-24">
-  <div class="tab-switcher inline-flex p-1 bg-white/[0.02] backdrop-blur-xl border border-white/[0.05] rounded-xl">
-    <button id="skills-tab" class="tab-button active-tab">
-      <div class="tab-highlight"></div>
-      <div class="flex items-center">
-        <Icon name="mdi:code-braces" class="w-5 h-5 mr-2 shrink-0" />
-        <span class="relative z-10">Skills</span>
+<div class="container mx-auto px-4 mt-8 sm:mt-12">
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4 max-w-4xl mx-auto">
+    <div class="flex items-center gap-3">
+      <div class="tab-switcher inline-flex p-1 bg-white/[0.02] backdrop-blur-xl border border-white/[0.05] rounded-xl">
+        <button id="skills-tab" class="tab-button active-tab">
+          <div class="tab-highlight"></div>
+          <div class="flex items-center">
+            <Icon name="mdi:code-braces" class="w-5 h-5 mr-2 shrink-0" />
+            <span class="relative z-10">Skills</span>
+          </div>
+        </button>
+        <button id="projects-tab" class="tab-button">
+          <div class="tab-highlight"></div>
+          <div class="flex items-center">
+            <Icon name="mdi:rocket-launch" class="w-5 h-5 mr-2 shrink-0" />
+            <span class="relative z-10">Projects</span>
+          </div>
+        </button>
       </div>
-    </button>
-    <button id="projects-tab" class="tab-button">
-      <div class="tab-highlight"></div>
-      <div class="flex items-center">
-        <Icon name="mdi:rocket-launch" class="w-5 h-5 mr-2 shrink-0" />
-        <span class="relative z-10">Projects</span>
+      <span class="hidden sm:block text-white/30 text-sm">•</span>
+      <div class="hidden sm:flex items-center gap-2">
+        <span class="text-white/50 text-sm">{skills.length} Skills</span>
+        <span class="text-white/30">•</span>
+        <span class="text-white/50 text-sm">{projects.length} Projects</span>
       </div>
-    </button>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href={`https://github.com/${config.github.username}?tab=repositories`} target="_blank" rel="noopener noreferrer"
+         class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/[0.02] text-white/60 hover:text-white/90 transition-all border border-white/[0.05] hover:border-white/10 text-sm">
+        <Icon name="mdi:source-repository" class="w-4 h-4" />
+        <span>View All Repositories</span>
+      </a>
+    </div>
   </div>
 </div>
 
-<section id="skills-section" class="py-12 sm:py-16 relative">
-  <div class="absolute inset-0 grid grid-cols-[repeat(auto-fit,minmax(5rem,1fr))] gap-20 opacity-[0.15] blur-[1px] -z-10">
-    <div class="bg-gradient-to-b from-purple-500/50 to-transparent h-60 rounded-lg"></div>
+<section id="skills-section" class="py-8 sm:py-12 relative">
+  <div class="absolute inset-0 grid grid-cols-[repeat(auto-fit,minmax(5rem,1fr))] gap-16 opacity-[0.12] blur-[1px] -z-10">
+    <div class="bg-gradient-to-b from-purple-500/50 to-transparent h-48 rounded-lg"></div>
   </div>
   
   <div class="container mx-auto px-4">
-    <div class="max-w-4xl">
+    <div class="max-w-4xl mx-auto">
       <h2 class="text-3xl sm:text-4xl font-bold mb-2 text-white/90 tracking-tight">
         <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600">Skills</span>
       </h2>
-      <p class="text-base sm:text-lg text-white/60 mb-8 sm:mb-12">Technical expertise and core competencies</p>
+      <p class="text-base sm:text-lg text-white/60 mb-6 sm:mb-8">Technical expertise and core competencies</p>
     
-      <div class="grid grid-cols-1 gap-6 sm:gap-8">
+      <div class="grid grid-cols-1 gap-4 sm:gap-5">
         {skills.map((skill, index) => (
-          <div class="group bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.08] rounded-xl p-5 sm:p-7
+          <div class="group bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.08] rounded-xl p-4 sm:p-6
                      hover:border-purple-500/30 backdrop-blur-sm
-                     transition-all duration-500 ease-out transform hover:scale-[1.02]"
+                     transition-all duration-500 ease-out transform hover:scale-[1.01] hover:shadow-[0_0_2rem_0_rgba(168,85,247,0.1)]"
                style={`animation-delay: ${index * 100}ms`}>
             <div class="flex items-start gap-4">
-              <div class="bg-purple-500/10 p-3 rounded-xl border border-purple-500/20 group-hover:border-purple-500/40 
-                          transition-all duration-500 group-hover:shadow-[0_0_1.5rem_0_rgba(168,85,247,0.1)]">
-                <Icon name={skill.icon} class="w-6 h-6 text-purple-400" />
+              <div class="bg-purple-500/10 p-2.5 rounded-xl border border-purple-500/20 group-hover:border-purple-500/40 
+                          transition-all duration-500 group-hover:shadow-[0_0_1rem_0_rgba(168,85,247,0.1)]">
+                <Icon name={skill.icon} class="w-5 h-5 text-purple-400" />
               </div>
               <div class="flex-1">
-                <h3 class="text-lg sm:text-xl font-medium text-white/90 group-hover:text-white transition-colors duration-300">{skill.title}</h3>
-                <p class="text-sm sm:text-[0.95rem] text-white/60 group-hover:text-white/70 transition-colors duration-300 mt-1">{skill.description}</p>
+                <h3 class="text-lg font-medium text-white/90 group-hover:text-white transition-colors duration-300">{skill.title}</h3>
+                <p class="text-sm text-white/60 group-hover:text-white/70 transition-colors duration-300 mt-1">{skill.description}</p>
                 
-                <div class="flex flex-wrap gap-2 mt-4">
+                <div class="flex flex-wrap gap-1.5 mt-3">
                   {skill.items.map(item => (
                     <div class="group/item">
                       <div class="relative">
-                        <span class="px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-[0.9rem] rounded-lg bg-purple-500/[0.08] text-purple-300/90
+                        <span class="px-3 py-1.5 text-sm rounded-lg bg-purple-500/[0.08] text-purple-300/90
                                    border border-purple-500/20 hover:border-purple-500/40 
                                    transition-all duration-300 cursor-default inline-block
-                                   hover:bg-purple-500/[0.15] hover:shadow-[0_0_1rem_0_rgba(168,85,247,0.1)]">
+                                   hover:bg-purple-500/[0.15] hover:shadow-[0_0_0.75rem_0_rgba(168,85,247,0.1)]">
                           {item.name}
                         </span>
-                        <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-52 p-3 bg-[#1A1A1C]/95 
+                        <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-52 p-2.5 bg-[#1A1A1C]/95 
                                     rounded-lg border border-purple-500/20 text-sm text-white/80
                                     opacity-0 group-hover/item:opacity-100 pointer-events-none backdrop-blur-xl
                                     transition-all duration-300 z-10 shadow-xl hidden sm:block">
@@ -93,76 +110,76 @@ const totalPages = Math.ceil((projects?.length || 0) / PROJECTS_PER_PAGE);
   </div>
 </section>
 
-<section id="projects-section" class="py-12 sm:py-16 relative hidden">
-  <div class="absolute inset-0 grid grid-cols-[repeat(auto-fit,minmax(5rem,1fr))] gap-20 opacity-[0.15] blur-[1px] -z-10">
-    <div class="bg-gradient-to-b from-purple-500/50 to-transparent h-60 rounded-lg"></div>
+<section id="projects-section" class="py-8 sm:py-12 relative hidden">
+  <div class="absolute inset-0 grid grid-cols-[repeat(auto-fit,minmax(5rem,1fr))] gap-16 opacity-[0.12] blur-[1px] -z-10">
+    <div class="bg-gradient-to-b from-purple-500/50 to-transparent h-48 rounded-lg"></div>
   </div>
   
   <div class="container mx-auto px-4">
-    <div class="max-w-4xl">
-      <h2 class="text-3xl sm:text-4xl font-bold mb-2 text-white/90 tracking-tight">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-2 text-white/90 tracking-tight text-center">
         <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600">Featured Projects</span>
       </h2>
-      <p class="text-base sm:text-lg text-white/60 mb-8 sm:mb-12">Highlighted work showcasing technical expertise and problem-solving abilities</p>
+      <p class="text-base sm:text-lg text-white/60 mb-6 sm:mb-8 text-center max-w-2xl mx-auto">Highlighted work showcasing technical expertise and problem-solving abilities</p>
     
-      <div class="grid grid-cols-1 gap-6 sm:gap-8">
+      <div class="grid grid-cols-1 gap-4 sm:gap-5">
         {projects.map((project, index) => (
-          <div class="group bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.08] rounded-xl p-5 sm:p-7
+          <div class="group bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.08] rounded-xl p-4 sm:p-6
                      hover:border-purple-500/30 backdrop-blur-sm project-card hidden
-                     transition-all duration-500 ease-out transform hover:scale-[1.02]"
+                     transition-all duration-500 ease-out transform hover:scale-[1.01] hover:shadow-[0_0_2rem_0_rgba(168,85,247,0.1)]"
                data-page={Math.floor(index / PROJECTS_PER_PAGE) + 1}
                style={`animation-delay: ${(index % PROJECTS_PER_PAGE) * 100}ms`}>
             <div class="flex items-start gap-4">
-              <div class="bg-purple-500/10 p-3 rounded-xl border border-purple-500/20 group-hover:border-purple-500/40 
-                          transition-all duration-500 group-hover:shadow-[0_0_1.5rem_0_rgba(168,85,247,0.1)] shrink-0">
-                <Icon name="mdi:folder-outline" class="w-6 h-6 sm:w-7 sm:h-7 text-purple-400" />
+              <div class="bg-purple-500/10 p-2.5 rounded-xl border border-purple-500/20 group-hover:border-purple-500/40 
+                          transition-all duration-500 group-hover:shadow-[0_0_1rem_0_rgba(168,85,247,0.1)] shrink-0">
+                <Icon name="mdi:folder-outline" class="w-5 h-5 text-purple-400" />
               </div>
               <div class="flex-1">
-                <div class="flex items-center justify-between flex-wrap gap-3 sm:gap-4">
-                  <h3 class="text-lg sm:text-xl font-medium text-white/90 group-hover:text-white transition-colors duration-300">{project.title}</h3>
-                  <div class="flex gap-3 sm:gap-4 shrink-0">
+                <div class="flex items-center justify-between flex-wrap gap-2 sm:gap-3">
+                  <h3 class="text-lg font-medium text-white/90 group-hover:text-white transition-colors duration-300">{project.title}</h3>
+                  <div class="flex gap-2 sm:gap-3 shrink-0">
                     <a href={project.github} class="text-white/60 hover:text-white/90 transition-colors duration-300 hover:scale-110 transform">
-                      <Icon name="mdi:github" class="w-5 h-5 sm:w-6 sm:h-6" />
+                      <Icon name="mdi:github" class="w-5 h-5" />
                     </a>
                     {project.demo && (
                       <a href={project.demo} class="text-white/60 hover:text-white/90 transition-colors duration-300 hover:scale-110 transform">
-                        <Icon name="mdi:open-in-new" class="w-5 h-5 sm:w-6 sm:h-6" />
+                        <Icon name="mdi:open-in-new" class="w-5 h-5" />
                       </a>
                     )}
                   </div>
                 </div>
-                <p class="text-sm sm:text-[0.95rem] text-white/60 group-hover:text-white/70 transition-colors duration-300 mt-2">{project.description}</p>
+                <p class="text-sm text-white/60 group-hover:text-white/70 transition-colors duration-300 mt-1">{project.description}</p>
                 
-                <div class="flex flex-wrap gap-2 mt-4">
+                <div class="flex flex-wrap gap-1.5 mt-3">
                   {project.tags.map(tag => (
-                    <span class="px-2 sm:px-3 py-1 sm:py-1.5 text-sm rounded-lg bg-purple-500/[0.08] text-purple-300/90
+                    <span class="px-2 py-1 text-sm rounded-lg bg-purple-500/[0.08] text-purple-300/90
                                border border-purple-500/20 transition-all duration-300 cursor-default inline-block">
                       {tag}
                     </span>
                   ))}
                 </div>
 
-                <div class="flex flex-wrap items-center justify-between gap-x-4 sm:gap-x-6 gap-y-2 sm:gap-y-3 mt-4 text-xs sm:text-sm">
-                  <div class="flex items-center gap-3 sm:gap-4 text-white/50">
+                <div class="flex flex-wrap items-center justify-between gap-x-3 sm:gap-x-4 gap-y-2 mt-3 text-xs">
+                  <div class="flex items-center gap-3 text-white/50">
                     <div class="flex items-center gap-1.5" title="Stars">
-                      <Icon name="mdi:star" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-500/70" />
+                      <Icon name="mdi:star" class="w-3.5 h-3.5 text-yellow-500/70" />
                       <span>{project.stars}</span>
                     </div>
                     <div class="flex items-center gap-1.5" title="Forks">
-                      <Icon name="mdi:source-fork" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-400/70" />
+                      <Icon name="mdi:source-fork" class="w-3.5 h-3.5 text-purple-400/70" />
                       <span>{project.forks}</span>
                     </div>
                     <div class="flex items-center gap-1.5" title="Created At">
-                      <Icon name="mdi:calendar" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-400/70" />
+                      <Icon name="mdi:calendar" class="w-3.5 h-3.5 text-blue-400/70" />
                       <span>{new Date(project.createdAt).toLocaleDateString()}</span>
                     </div>
                   </div>
 
                   {project.latestCommit && (
-                    <div class="flex items-center gap-1.5 sm:gap-2 text-white/50 w-full sm:w-auto" title="Latest Commit">
-                      <Icon name="mdi:git" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-400" />
+                    <div class="flex items-center gap-1.5 text-white/50 w-full sm:w-auto" title="Latest Commit">
+                      <Icon name="mdi:git" class="w-3.5 h-3.5 text-purple-400" />
                       <a href={project.latestCommit.url} 
-                         class="font-mono text-purple-300/90 hover:text-purple-300 transition-colors duration-300 text-xs sm:text-sm"
+                         class="font-mono text-purple-300/90 hover:text-purple-300 transition-colors duration-300 text-xs"
                          target="_blank" 
                          rel="noopener noreferrer">
                         {project.latestCommit.hash}
@@ -181,14 +198,14 @@ const totalPages = Math.ceil((projects?.length || 0) / PROJECTS_PER_PAGE);
       </div>
 
       {totalPages > 1 && (
-        <div class="flex justify-center items-center gap-2 mt-12">
-          <button id="prev-page" class="pagination-btn" disabled>
-            <Icon name="mdi:chevron-left" class="w-5 h-5" />
+        <div class="flex justify-center items-center gap-2 mt-8">
+          <button id="prev-page" class="pagination-btn group" disabled>
+            <Icon name="mdi:chevron-left" class="w-5 h-5 group-hover:scale-110 transition-transform" />
           </button>
           
           <div class="flex gap-2 items-center">
             {Array.from({ length: totalPages }, (_, i) => (
-              <button class={`w-8 h-8 rounded-lg border text-sm font-medium transition-all duration-300 pagination-page-btn
+              <button class={`w-8 h-8 rounded-lg border text-sm font-medium transition-all duration-300 pagination-page-btn hover:scale-105
                            ${i === 0 ? 'border-purple-500/50 bg-purple-500/10 text-white' : 'border-white/10 text-white/60 hover:border-purple-500/30 hover:bg-purple-500/5'}`}
                       data-page={i + 1}>
                 {i + 1}
@@ -196,8 +213,8 @@ const totalPages = Math.ceil((projects?.length || 0) / PROJECTS_PER_PAGE);
             ))}
           </div>
 
-          <button id="next-page" class="pagination-btn" disabled={totalPages === 1}>
-            <Icon name="mdi:chevron-right" class="w-5 h-5" />
+          <button id="next-page" class="pagination-btn group" disabled={totalPages === 1}>
+            <Icon name="mdi:chevron-right" class="w-5 h-5 group-hover:scale-110 transition-transform" />
           </button>
         </div>
       )}
@@ -208,13 +225,13 @@ const totalPages = Math.ceil((projects?.length || 0) / PROJECTS_PER_PAGE);
 <style>
   .group {
     opacity: 0;
-    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   @keyframes fadeInUp {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(15px);
     }
     to {
       opacity: 1;
