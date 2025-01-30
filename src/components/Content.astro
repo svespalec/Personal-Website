@@ -37,7 +37,7 @@ const totalPages = Math.ceil((projects?.length || 0) / PROJECTS_PER_PAGE);
       </div>
       <span class="hidden sm:block text-white/30 text-sm">•</span>
       <div class="hidden sm:flex items-center gap-2">
-        <span class="text-white/50 text-sm">{skills.length} Skills</span>
+        <span class="text-white/50 text-sm">{skills.reduce((acc, skill) => acc + skill.items.length, 0)} Skills</span>
         <span class="text-white/30">•</span>
         <span class="text-white/50 text-sm">{projects.length} Projects</span>
       </div>
@@ -62,7 +62,7 @@ const totalPages = Math.ceil((projects?.length || 0) / PROJECTS_PER_PAGE);
       <h2 class="text-3xl sm:text-4xl font-bold mb-2 text-white/90 tracking-tight">
         <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600">Skills</span>
       </h2>
-      <p class="text-base sm:text-lg text-white/60 mb-6 sm:mb-8">Technical expertise and core competencies</p>
+      <p class="text-base sm:text-lg text-white/60 mb-6 sm:mb-8 max-w-2xl">Technical expertise and core competencies</p>
     
       <div class="grid grid-cols-1 gap-4 sm:gap-5">
         {skills.map((skill, index) => (
@@ -117,10 +117,10 @@ const totalPages = Math.ceil((projects?.length || 0) / PROJECTS_PER_PAGE);
   
   <div class="container mx-auto px-4">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl sm:text-4xl font-bold mb-2 text-white/90 tracking-tight text-center">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-2 text-white/90 tracking-tight">
         <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600">Featured Projects</span>
       </h2>
-      <p class="text-base sm:text-lg text-white/60 mb-6 sm:mb-8 text-center max-w-2xl mx-auto">Highlighted work showcasing technical expertise and problem-solving abilities</p>
+      <p class="text-base sm:text-lg text-white/60 mb-6 sm:mb-8 max-w-2xl">Highlighted work showcasing technical expertise and problem-solving abilities</p>
     
       <div class="grid grid-cols-1 gap-4 sm:gap-5">
         {projects.map((project, index) => (
