@@ -34,7 +34,7 @@ interface SocialLinks {
     },
     siteMetadata: {
       title: "Samuel Vespalec - Backend Developer",
-      description: "A results-driven software engineer specializing in advanced system security and backend development. Expert in designing and implementing sophisticated anti-cheat solutions, reverse engineering, and high-performance backend systems."
+      description: "A results-driven backend engineer specializing in advanced system security and backend development. Expert in designing and implementing sophisticated anti-cheat solutions, reverse engineering, and high-performance backend systems."
     }
   };
   
