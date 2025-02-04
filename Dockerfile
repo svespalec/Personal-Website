@@ -5,8 +5,8 @@ WORKDIR /app
 # Copy package files
 COPY package.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies and serve globally
+RUN npm install && npm install -g serve
 
 # Copy source files
 COPY . .
@@ -19,5 +19,5 @@ ENV HOST=0.0.0.0
 ENV PORT=3000
 EXPOSE 3000
 
-# Start the app
-CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "3000"] 
+# Start the app using serve instead of astro preview
+CMD ["serve", "dist", "-l", "3000", "--no-clipboard"] 
