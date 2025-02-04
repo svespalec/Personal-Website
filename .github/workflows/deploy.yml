@@ -55,8 +55,7 @@ jobs:
             # Change these variables for your own deployment
             PROJECT_NAME="sam-portfolio"
             DEPLOY_DIR="/var/www/${PROJECT_NAME}"
-            CONTAINER_NAME="${PROJECT_NAME}-portfolio"
-            NETWORK_NAME="${PROJECT_NAME}_portfolio_network"
+            CONTAINER_NAME="${PROJECT_NAME}"
             
             # Create deployment directory if it doesn't exist
             sudo mkdir -p $DEPLOY_DIR
@@ -77,25 +76,6 @@ jobs:
                 environment:
                   - PORTFOLIO_GITHUB_TOKEN=${PORTFOLIO_GITHUB_TOKEN}
                 restart: unless-stopped
-                networks:
-                  - portfolio_network
-                # You can add more complex configuration here:
-                # volumes:
-                #   - portfolio_data:/app/data
-                # depends_on:
-                #   - other_service
-                # deploy:
-                #   resources:
-                #     limits:
-                #       memory: 1G
-            
-            networks:
-              portfolio_network:
-                name: ${NETWORK_NAME}
-                driver: bridge
-            
-            # volumes:
-            #   portfolio_data:
             EOL
             
             # Create or update .env file
@@ -104,9 +84,6 @@ jobs:
             # Stop and remove any existing containers with the same name
             docker stop ${CONTAINER_NAME} || true
             docker rm ${CONTAINER_NAME} || true
-            
-            # Remove old network if exists
-            docker network rm ${NETWORK_NAME} || true
             
             # Pull the latest images and deploy
             docker compose pull
